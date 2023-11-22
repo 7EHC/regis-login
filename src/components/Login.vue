@@ -5,27 +5,31 @@ import { useRouter, RouterLink } from "vue-router";
 import { useUserStore } from "../stores/userStore.js";
 
 const router = useRouter();
-const loginUser = ref({
-  email: "",
-  password: "",
-});
 const registrationError = ref("");
 const registrationSuccess = ref();
 const allUser = ref();
 const currentUser = ref();
 const userStore = useUserStore();
+const loginUser = ref({
+email: "",
+  password: "",
+});
 
 const loginCheck = async (user) => {
   let loggedIn = false;
+  let pwError = false;
+  let emailError = true;
+  allUser.value = await getUser();
   for (let i = 0; i < allUser.value.length; i++) {
     const loopUser = allUser.value[i];
 
     if (loopUser.email === user.email) {
+      emailError = false
       if (loopUser.password === user.password) {
         currentUser.value = loopUser;
-        // console.log(user.email);
-        // console.log(user.password);
         loggedIn = true;
+      } else {
+        pwError = true;
       }
     }
   }
@@ -36,14 +40,17 @@ const loginCheck = async (user) => {
     userStore.setUserLogin(currentUser.value.username);
     setTimeout(() => {
       router.push("/home");
-    }, 1000);
-  } else {
-    registrationError.value = "Email doesn't exist or Password is incorrect.";
+    }, 1200);
+  } else if (pwError) {
+    registrationError.value = "Password is incorrect.";
+  } else if (emailError) {
+    registrationError.value = "Couldn't find the Email.";
   }
 };
 
 onMounted(async () => {
-  allUser.value = await getUser();
+  // allUser.value = await getUser();
+  // console.log(allUser.value);
 });
 </script>
 
@@ -61,20 +68,20 @@ onMounted(async () => {
           type="password"
           id="password"
           v-model="loginUser.password"
+          minlength="8"
+          maxlength="12"
           required
         /><br />
 
         <label for="register" class="register"
-          >Do not have an account?&nbsp;<RouterLink
-            :to="{ name: 'register' }"
-          >
+          >Do not have an account?&nbsp;<RouterLink :to="{ name: 'register' }">
             Register now</RouterLink
           >
-          <span class="msg" v-if="registrationError" style="color: red">{{
+          <span class="msg-error" v-if="registrationError" style="color: red">{{
             registrationError
           }}</span>
           <span
-            class="msg-login"
+            class="msg-success"
             v-if="registrationSuccess"
             style="color: green"
           >
@@ -98,14 +105,14 @@ img {
   width: 15px;
 }
 h1 {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
 }
 .all {
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
-  max-width: 800px;
+  max-width: 750px;
   margin: 0 auto;
   margin-top: 5%;
   padding: 20px;
@@ -114,19 +121,19 @@ h1 {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.msg {
+.msg-error {
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  padding-left: 225px;
+  padding-left: 295px;
   font-size: smaller;
 }
 
-.msg-login {
+.msg-success {
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  padding-left: 350px;
+  padding-left: 300px;
   font-size: normal;
 }
 
@@ -150,7 +157,7 @@ label {
 }
 
 .register {
-    font-weight: normal;
+  font-weight: normal;
 }
 
 input {

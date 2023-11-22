@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, RouterLink } from "vue-router";
 import axios from "axios";
 import { getUser } from "../composable/fetch.js";
 
@@ -8,20 +8,34 @@ const registrationError = ref("");
 const registrationSuccess = ref();
 const router = useRouter();
 const existUser = ref();
+const user = ref({
+  firstname: "",
+  lastname: "",
+  username: "",
+  email: "",
+  dob: "",
+  password: "",
+  confirmPassword: "",
+});
 
-const regisCheck = () => {
-if (user.value.password !== user.value.confirmPassword) {
+const regisCheck = async() => {
+  if (user.value.password !== user.value.confirmPassword) {
     registrationError.value = "Passwords do not match.";
   } else {
     registrationError.value = "";
-    let usernameTaken = false
-    let emailTaken = false
-
+    let usernameTaken = false;
+    let emailTaken = false;
+    existUser.value = await getUser();
     existUser.value.forEach((u) => {
-      if (user.value.username.toLocaleLowerCase() === u.username.toLocaleLowerCase()) {
+      if (
+        user.value.username.toLocaleLowerCase() ===
+        u.username.toLocaleLowerCase()
+      ) {
         usernameTaken = true;
       }
-      if (user.value.email.toLocaleLowerCase() === u.email.toLocaleLowerCase()) {
+      if (
+        user.value.email.toLocaleLowerCase() === u.email.toLocaleLowerCase()
+      ) {
         emailTaken = true;
       }
     });
@@ -35,15 +49,15 @@ if (user.value.password !== user.value.confirmPassword) {
       registrationSuccess.value = true;
       addNewUser(user.value);
     }
-}
-}
+  }
+};
 
 const addNewUser = async (newUser) => {
   try {
     registrationError.value = "";
-      setTimeout(() => {
-        router.push("/login");
-      }, 1500);
+    setTimeout(() => {
+      router.push("/login");
+    }, 1500);
     const res = await axios.post("http://localhost:5000/users", {
       firstname: newUser.firstname,
       lastname: newUser.lastname,
@@ -62,23 +76,15 @@ const addNewUser = async (newUser) => {
 };
 
 onMounted(async () => {
-  existUser.value = await getUser();
-//   console.log(existUser.value);
+//   existUser.value = await getUser();
+//     console.log(existUser.value);
 });
 
-const user = ref({
-  firstname: "",
-  lastname: "",
-  username: "",
-  email: "",
-  dob: "",
-  password: "",
-  confirmPassword: "",
-});
 </script>
 
 <template>
   <div class="all">
+    <RouterLink :to="{ name: 'login' }" style="text-decoration: none; display: flex; width: 10px;"><img src="../assets/BackArrow.svg" alt="back" style="opacity: 0.8;"/></RouterLink>
     <h1>Registration Form</h1>
     <br />
     <div id="app" class="form-container">
@@ -99,7 +105,16 @@ const user = ref({
         <input type="date" id="dob" v-model="user.dob" required />
 
         <label for="password">Password<span class="star">*</span></label>
-        <input type="password" id="password" v-model="user.password" required />
+        <input
+          type="password"
+          id="password"
+          v-model="user.password"
+          required
+          maxlength="12"
+          minlength="8"
+          pattern="((?=.*\d)(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
+          placeholder="8-12 characters long - contain at least 1 digit, atleast 1 uppercase, at least 1 lowercase, and at least1 special symbol."
+        />
 
         <label for="confirmPassword"
           >Confirm Password<span class="star">*</span></label
@@ -115,7 +130,8 @@ const user = ref({
           registrationError
         }}</span>
         <span class="msg" v-if="registrationSuccess" style="color: green">
-          <img src="../assets/Checkmark.svg" alt="checkMark"> Registration Successful
+          <img class="checkMark" src="../assets/Checkmark.svg" alt="checkMark" /> Registration
+          Successful
         </span>
       </form>
     </div>
@@ -123,13 +139,18 @@ const user = ref({
 </template>
 
 <style scoped>
-img {
-    width: 14px;
+#password::placeholder {
+  color: lightgray;
+  font-style: italic;
+}
+
+.checkMark {
+  width: 14px;
 }
 .all {
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
-  max-width: 600px;
+  max-width: 750px;
   margin: 0 auto;
   margin-top: 20px;
   padding: 15px;
@@ -139,9 +160,9 @@ img {
 }
 
 h1 {
-    display: flex;
-    justify-content: center;
-  }
+  display: flex;
+  justify-content: center;
+}
 
 .form-container {
   margin-bottom: 20px;
@@ -188,7 +209,7 @@ button:hover {
   /* display: flex; */
   justify-content: flex-end;
   align-items: flex-end;
-  padding-left: 285px;
+  padding-left: 435px;
   font-size: smaller;
 }
 

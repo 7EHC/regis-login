@@ -29,7 +29,7 @@ onMounted(async () => {
   });
   const local = localStorage.getItem("user");
   if (local.length === 0) {
-    alert("Please, Login first");
+    // alert("Please, Login first.");
     router.push("/login");
   }
 });
@@ -65,6 +65,8 @@ onMounted(async () => {
   width: 100%;
   height: 100%;
   display: flex;
+  left: 0;
+  top: 0;
   justify-content: center;
   align-items: center;
 }
