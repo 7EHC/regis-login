@@ -12,8 +12,8 @@
     <p>กรอกข้อมูลให้ครบตามที่ require เพื่อทำการสร้าง user และ password ใหม่ สำหรับใช้ Login เข้าสู่หน้า user page</p>
 </div>
 
-## - User Page ( /home )
+## - User Home Page ( /home )
 <div align="center">
   <img src="./src/assets/user.png" width=75% alt="iuser"> <br/>
-    <p>user page จะแสดงข้อมูล Personal Information ของ user ที่ทำการ Login เข้ามา (ถ้าหากยังไม่มี Account จะไม่สามารถเข้าถึงหน้า user page ได้)</p>
+    <p>user home page จะแสดงข้อมูล Personal Information ของ user ที่ทำการ Login เข้ามา (ถ้าหากยังไม่มี Account จะไม่สามารถเข้าถึงหน้า user home page ได้)</p>
 </div>
