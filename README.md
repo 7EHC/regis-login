@@ -7,10 +7,10 @@
 
 ## - Register Page
 <div align="center">
-  <img src="./src/assests/regis.png" width=75% alt="regis">
+  <img src="./src/assets/regis.png" width=75% alt="regis">
 </div>
 
 ## - User Page
 <div align="center">
-  <img src="./src/assests/user.png" width=75% alt="iuser">
+  <img src="./src/assets/user.png" width=75% alt="iuser">
 </div>
