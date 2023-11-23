@@ -3,6 +3,7 @@
 ## - Login Page
 <div align="center">
   <img src="./src/assets/login.png" width=75% alt="login">
+  <span>กรอก email และ password เพื่อทำการ Login เข้าสู่หน้า user ถ้าหากยังไม่มีบัญชี จะต้องลงทะเบียนก่อนที่ Register now</span>
 </div>
 
 ## - Register Page
