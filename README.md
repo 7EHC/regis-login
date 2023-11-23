@@ -9,7 +9,7 @@
 ## - Register Page
 <div align="center">
   <img src="./src/assets/regis.png" width=75% alt="regis"> <br/>
-    <p>กรอกข้อมูลให้ครบตามที่ require เพื่อทำการสร้าง user ใหม่ สำหรับใช้ Login เข้าสู่หน้า user</p>
+    <p>กรอกข้อมูลให้ครบตามที่ require เพื่อทำการสร้าง user และ password ใหม่ สำหรับใช้ Login เข้าสู่หน้า user page</p>
 </div>
 
 ## - User Page
