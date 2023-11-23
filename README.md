@@ -15,5 +15,5 @@
 ## - User Home Page ( /home )
 <div align="center">
   <img src="./src/assets/user.png" width=75% alt="iuser"> <br/>
-    <p>user home page จะแสดงข้อมูล Personal Information ของ user ที่ทำการ Login เข้ามา (ถ้าหากยังไม่มี Account จะไม่สามารถเข้าถึงหน้า user home page ได้)</p>
+    <p>แสดงข้อมูล Personal Information ของ user ที่ทำการ Login เข้ามา (ถ้าหากยังไม่มี Account จะไม่สามารถเข้าถึงหน้า user home page ได้)</p>
 </div>
